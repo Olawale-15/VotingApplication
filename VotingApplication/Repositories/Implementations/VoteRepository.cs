@@ -24,7 +24,16 @@ namespace VotingApplication.Repositories.Implementations
 
         public void UpdateVote(Vote vote)
         {
-            throw new NotImplementedException();
+            var existingVote = ContextClass.Votes.FirstOrDefault(x => x.VoteId == vote.VoteId);
+            if (existingVote != null)
+            {
+                existingVote.VoteCount = vote.VoteCount;
+                
+            }
+            else
+            {
+                throw new KeyNotFoundException("Vote not found");
+            }
         }
 
         public ICollection<Vote> GetAllVotes()

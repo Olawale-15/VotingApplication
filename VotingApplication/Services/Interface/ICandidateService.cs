@@ -9,5 +9,6 @@ namespace VotingApplication.Services.Interface
         BaseResponse DeleteCandidate(Guid candidateId);
         BaseResponse<CandidateResponseModel> GetCandidate(Guid candidateId);
         BaseResponse<ICollection<CandidateResponseModel>> GetCandidates();
+        public BaseResponse UpdateCandidate(Guid candidateId, UpdateCandidateRequestModel candidateRequestModel);
     }
 }

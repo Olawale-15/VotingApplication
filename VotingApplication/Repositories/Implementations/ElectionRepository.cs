@@ -36,7 +36,18 @@ namespace VotingApplication.Repositories.Implementations
 
         public void UpdateElection(Election election)
         {
-            throw new NotImplementedException();
+            var existingElection = ContextClass.Elections.FirstOrDefault(x => x.ElectionId == election.ElectionId);
+            if (existingElection != null)
+            {
+                existingElection.Title = election.Title;
+                existingElection.Description = election.Description;
+                existingElection.StartDate = election.StartDate;
+                existingElection.EndDate = election.EndDate;
+            }
+            else
+            {
+                throw new KeyNotFoundException("Election not found");
+            }
         }
     }
 }

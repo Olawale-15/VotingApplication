@@ -121,5 +121,30 @@ namespace VotingApplication.Services.Implemetation
                 Status = true,
             };
         }
+
+        public BaseResponse UpdateCandidate(Guid candidateId, UpdateCandidateRequestModel candidateRequestModel)
+        {
+            var candidate = _candidateRepository.GetCandidateById(candidateId);
+            if(candidate == null)
+            {
+                return new BaseResponse
+                {
+                    Message = "Candidate not found",
+                    Status = false,
+                };
+            }
+
+            candidate.Name = candidateRequestModel.Name;
+            candidate.Party = candidateRequestModel.Party;
+            candidate.VoteCount = candidateRequestModel.VoteCount;
+
+            _candidateRepository.UpdateCandidate(candidate);
+
+            return new BaseResponse
+            {
+                Message = "Candidate updated successfully",
+                Status = true,
+            };
+        }
     }
 }

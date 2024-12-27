@@ -39,7 +39,17 @@ namespace VotingApplication.Repositories.Implementations
 
         public void UpdateCandidate(Candidate candidate)
         {
-            throw new NotImplementedException();
+            var existingCandidate = ContextClass.Candidate.FirstOrDefault(x => x.CandidateId == candidate.CandidateId);
+            if (existingCandidate != null)
+            {
+                existingCandidate.Name = candidate.Name;
+                existingCandidate.Party = candidate.Party;
+                existingCandidate.VoteCount = candidate.VoteCount;
+            }
+            else
+            {
+                throw new KeyNotFoundException("Candidate not found");
+            }
         }
     }
 }

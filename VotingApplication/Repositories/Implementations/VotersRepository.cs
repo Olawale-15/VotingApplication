@@ -30,7 +30,16 @@ namespace VotingApplication.Repositories.Implementations
 
         public void UpdateVoter(Voters voter)
         {
-            throw new NotImplementedException();
+            var existingVoters = ContextClass.Voters.FirstOrDefault(x => x.VotersId == voter.VotersId);
+            if (existingVoters != null)
+            {
+                existingVoters.VotersCardNumber = voter.VotersCardNumber;
+                existingVoters.HasVoted = voter.HasVoted;
+            }
+            else
+            {
+                throw new KeyNotFoundException("Voter not found");
+            }
         }
     }
 }
