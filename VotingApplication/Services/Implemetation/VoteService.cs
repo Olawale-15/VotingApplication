@@ -127,7 +127,32 @@ namespace VotingApplication.Services.Implemetation
 
         public BaseResponse<ICollection<VoteResponseModel>> GetVotes()
         {
-            throw new NotImplementedException();
+            var getVotes = _voteRepository.GetAllVotes();
+            if(getVotes == null)
+            {
+                return new BaseResponse<ICollection<VoteResponseModel>>
+                {
+                    Message = "Vote not found",
+                    Status = false,
+                };
+            }
+
+            var votes = getVotes.Select(x => new VoteResponseModel
+            {
+                VoteId = x.VoteId,
+                ElectionId = x.ElectionId,
+                CandidateId = x.CandidateId,
+                VotedAt = x.VotedAt,
+                VoteCount = x.VoteCount,
+                VotersId = x.VotersId
+            }).ToList();
+
+            return new BaseResponse<ICollection<VoteResponseModel>>
+            {
+                Data = votes,
+                Message = "List of votes",
+                Status = true
+            };
         }
     }
 }

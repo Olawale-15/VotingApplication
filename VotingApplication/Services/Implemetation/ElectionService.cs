@@ -20,6 +20,7 @@ namespace VotingApplication.Services.Implemetation
             
             var election = new Election
             {
+                ElectionId = Guid.NewGuid(),
                 Title = electionRequest.Title,
                 Description = electionRequest.Description,
                 StartDate = electionRequest.StartDate,
@@ -84,12 +85,57 @@ namespace VotingApplication.Services.Implemetation
 
         public BaseResponse<ElectionResponseModel> GetElection(Guid electionId)
         {
-            throw new NotImplementedException();
+            var getElection = _electionRepository.GetElectionById(electionId);
+            if(getElection == null)
+            {
+                return new BaseResponse<ElectionResponseModel>
+                {
+                    Message = "Election not found",
+                    Status = false
+                };
+            }
+
+            var election = new ElectionResponseModel
+            {
+                ElectionId = getElection.ElectionId,
+                Title = getElection.Title,
+                Description = getElection.Description,
+                StartDate = getElection.StartDate,
+                EndDate = getElection.EndDate,
+            };
+
+            return new BaseResponse<ElectionResponseModel>
+            {
+                Data = election,
+                Message = "Election details",
+                Status = true
+            };
         }
 
-        public BaseResponse UpdateElection(ElectionUpdateRequestModel electionUpdateRequest)
+        public BaseResponse UpdateElection(Guid electionId, ElectionUpdateRequestModel electionUpdateRequest)
         {
-            throw new NotImplementedException();
+            var election = _electionRepository.GetElectionById(electionId);
+            if (election == null)
+            {
+                return new BaseResponse
+                {
+                    Message = "Election not found",
+                    Status = false
+                };
+            }
+
+            election.Title = electionUpdateRequest.Title;
+            election.Description = electionUpdateRequest.Description;
+            election.StartDate = electionUpdateRequest.StartDate;
+            election.EndDate = electionUpdateRequest.EndDate;
+
+            _electionRepository.UpdateElection(election);
+
+            return new BaseResponse
+            {
+                Message = "Election updated successfully",
+                Status = true
+            };
         }
     }
 }
