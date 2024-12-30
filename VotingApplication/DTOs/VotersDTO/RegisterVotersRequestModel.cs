@@ -1,11 +1,10 @@
-﻿namespace VotingApplication.Entities
+﻿namespace VotingApplication.DTOs.VotersDTO
 {
-    public class Voters
+    public class RegisterVotersRequestModel
     {
-        public Guid VotersId { get; set; }  
         public required string VotersCardNumber { get; set; }
         public bool HasVoted { get; set; }
         public DateTime VotedAt { get; set; }
-        public required string FaceDate { get; set; }    
+        public required IFormFile FaceData { get; set; }
     }
 }
