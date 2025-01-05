@@ -67,6 +67,9 @@ namespace VotingApplication.Services.Implemetation
 
                 var voter = new Voters
                 {
+                    Name = request.Name,
+                    Email = request.Email,
+                    Password = request.Password,
                     VotersCardNumber = request.VotersCardNumber,
                     FaceDate = savedFileName,
                     HasVoted = false,

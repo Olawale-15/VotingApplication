@@ -28,11 +28,15 @@ namespace VotingApplication.Services.Implemetation
                     Status = false,
                 };
             }
+
             var candidate = new Candidate
             {
                 CandidateId = Guid.NewGuid(),
                 Name = candidateRequestModel.Name,
                 Party = candidateRequestModel.Party,
+                Email = candidateRequestModel.Email,
+                PhoneNumber = candidateRequestModel.PhoneNumber,
+                Password = candidateRequestModel.Password,
                 ElectionId = getElection.ElectionId,
                 VoteCount = 0
             };

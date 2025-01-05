@@ -7,5 +7,6 @@
         public Guid CandidateId { get; set; }
         public DateTime VotedAt { get; set; }
         public int VoteCount { get; set; }
+        public required IFormFile FaceData { get; set; }
     }
 }

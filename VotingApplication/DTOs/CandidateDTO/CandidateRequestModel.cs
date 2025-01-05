@@ -6,5 +6,8 @@
         public string Party { get; set; } = default!;
         public Guid ElectionId { get; set; }
         public int VoteCount { get; set; }
+        public string PhoneNumber { get; set; } = default!;
+        public string Password { get; set; } = default!;
+        public string Email { get; set; } = default!;
     }
 }

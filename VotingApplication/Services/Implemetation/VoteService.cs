@@ -24,11 +24,11 @@ namespace VotingApplication.Services.Implemetation
         public BaseResponse CreateVote(VoteRequestModel voteRequest)
         {
             var candidate = _candidateRepository.GetCandidateById(voteRequest.CandidateId);
-            if(candidate == null)
+            if (candidate == null)
             {
                 return new BaseResponse
                 {
-                    Message = "Candiadte not found",
+                    Message = "Candidate not found",
                     Status = false,
                 };
             }
@@ -38,13 +38,13 @@ namespace VotingApplication.Services.Implemetation
             {
                 return new BaseResponse
                 {
-                    Message = "election not match",
+                    Message = "Election not found",
                     Status = false,
                 };
             }
 
-            var voter = _voteRepository.GetVote( x=> x.VoteId == voteRequest.VotersId);
-            if(voter == null)
+            var voter = _votesRepository.GetVoter(x => x.VotersId == voteRequest.VotersId);
+            if (voter == null)
             {
                 return new BaseResponse
                 {
@@ -53,6 +53,25 @@ namespace VotingApplication.Services.Implemetation
                 };
             }
 
+            if (voter.HasVoted)
+            {
+                return new BaseResponse
+                {
+                    Message = "You've already voted",
+                    Status = false,
+                };
+            }
+
+            if (voter.FaceDate == voteRequest.FaceData.ToString())
+            {
+                return new BaseResponse
+                {
+                    Message = "You've cast a vote before",
+                    Status = false,
+                };
+            }
+
+            
             var vote = new Vote
             {
                 VoteId = Guid.NewGuid(),
@@ -63,16 +82,20 @@ namespace VotingApplication.Services.Implemetation
             };
 
             _voteRepository.CreateVote(vote);
-            candidate.VoteCount = +1;  
+
+            candidate.VoteCount += 1;
             _candidateRepository.UpdateCandidate(candidate);
+
+            voter.HasVoted = true;
+            _votesRepository.UpdateVoter(voter);
 
             return new BaseResponse
             {
-                Message = "Vote added",
+                Message = "Vote added successfully",
                 Status = true
             };
-
         }
+
 
         public BaseResponse DeleteVote(Guid voteId)
         {
