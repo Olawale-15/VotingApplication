@@ -4,18 +4,15 @@ using VotingApplication.Services.Interface;
 
 namespace VotingApplication.Controllers
 {
-    public class VotersController(IVotersService voters) : Controller
+    [Route("api/")]
+    [ApiController]
+    public class VotersController(IVotersService voters) : ControllerBase
     {
-        public IActionResult RegisterVoters()
-        {
-            return View();
-        }
-
         [HttpPost("Register-voter")]
         public IActionResult RegisterVoters(RegisterVotersRequestModel requestModel)
         {
             voters.RegisterVoter(requestModel);
-            return View();
+            return Ok();
         }
     }
 }
